@@ -35,6 +35,13 @@ El sistema categoriza cada fruto detectado en uno de tres estados fenológicos d
 
 > **Aclaración técnica:** El software opera bajo el paradigma de **detección de objetos mediante cajas delimitadoras (*bounding boxes*)** y estimación de probabilidad de pertenencia a clase. El sistema **no** realiza segmentación semántica ni genera máscaras a nivel de píxel.
 
+### 📸 Vista Previa del Aplicativo
+
+| Detección de Fruto Inmaduro (76.9 % Confianza) | Detección de Fruto Maduro (65.0 % Confianza) |
+| :---: | :---: |
+| ![Inmadura](assets/screenshots/deteccion_inmadura.jpeg) | ![Madura](assets/screenshots/deteccion_madura.jpeg) |
+| *Identificación con caja delimitadora verde (`#2CA02C`) y panel de métricas.* | *Identificación con caja delimitadora amarilla (`#F2B134`) e inferencia en tiempo real.* |
+
 ---
 
 ## 2. Relación con el Objetivo de la Tesis
@@ -160,7 +167,11 @@ PineDetect/
 ├── assets/
 │   ├── logo_placeholder.png   # Logotipo gráfico institucional del aplicativo
 │   ├── generate_logo.py       # Script generador utilitario del logotipo
-│   └── styles.css             # Hoja de estilos visuales institucionales
+│   ├── styles.css             # Hoja de estilos visuales institucionales
+│   └── screenshots/           # Capturas de pantalla de la interfaz y demostración
+│       ├── deteccion_inmadura.jpeg
+│       └── deteccion_madura.jpeg
+├── img_prueba/                # Imágenes de prueba para inferencia y validación rápida
 ├── static/                    # Archivos estáticos web (CSS, JS cliente, imágenes)
 ├── templates/                 # Plantillas HTML5 semánticas y responsivas
 ├── tests/
@@ -250,6 +261,18 @@ Una vez iniciado, abrir el navegador en la dirección indicada (típicamente `ht
    - Analizar el gráfico de distribución por madurez y la tabla de coordenadas espaciales.
 6. **Descargar Reportes:**
    - Utilizar los botones inferiores para exportar la imagen resultante (`PNG`), el reporte tabular (`CSV`) o los metadatos analíticos (`JSON`).
+
+### 🖼️ Demostración de Resultados en la Interfaz
+
+A continuación se presentan ejemplos reales del procesamiento generado por PineDetect:
+
+#### Caso 1: Detección y Clasificación de Piña Inmadura
+![Demostración Inmadura](assets/screenshots/deteccion_inmadura.jpeg)
+*Figura 1: Detección de fruto inmaduro con confianza del 76.9 %, tiempo de inferencia de 441.3 ms, resumen estadístico y panel lateral de parámetros.*
+
+#### Caso 2: Detección y Clasificación de Piña Madura
+![Demostración Madura](assets/screenshots/deteccion_madura.jpeg)
+*Figura 2: Detección de fruto maduro con confianza del 65.0 %, tiempo de inferencia de 482.4 ms y robustez ante variaciones de orientación del fruto.*
 
 ---
 
