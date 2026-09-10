@@ -1,0 +1,38 @@
+EVALUACIÓN FINAL ESTRICTA E1-E3
+================================================================================
+
+Ganador congelado antes de test: E3 - YOLOv8m
+Criterio de selección: mAP@0.50:0.95 de validación
+Test utilizado para reajuste: NO
+
+COMPARACIÓN VALIDACIÓN FRENTE A TEST
+experimento  modelo  precision_test  precision_val  recall_test  recall_val  map50_test  map50_val  map50_95_test  map50_95_val  mean_image_f1_test  mean_image_f1_val  inference_ms_test  inference_ms_val  latency_total_ms_test  latency_total_ms_val  fps_estimados_test  fps_estimados_val  gap_precision_test_menos_val  gap_recall_test_menos_val  gap_map50_test_menos_val  gap_map50_95_test_menos_val  gap_mean_image_f1_test_menos_val  caida_relativa_map50_95_pct
+         E1 YOLOv8n         0.94145        0.91191      0.94186     0.90921     0.96375    0.94246        0.82235       0.80530             0.93827            0.92326            4.58555           5.54246               11.94483              15.31235            83.71820           65.30675                       0.02954                    0.03265                   0.02129                      0.01705                           0.01500                     -2.11720
+         E2 YOLOv8s         0.92289        0.90741      0.96139     0.92150     0.96737    0.95231        0.80937       0.80814             0.94551            0.91566            8.86857           8.86876               11.88879              12.66635            84.11284           78.94936                       0.01548                    0.03989                   0.01506                      0.00123                           0.02985                     -0.15216
+         E3 YOLOv8m         0.93983        0.93053      0.93333     0.92836     0.95858    0.94978        0.79887       0.81130             0.93805            0.93521           21.50558          21.50963               24.62267              25.18891            40.61298           39.70002                       0.00930                    0.00497                   0.00879                     -0.01243                           0.00285                      1.53266
+
+FRIEDMAN Y KENDALL W
+split                metric  n_images  models  friedman_chi_square  p_value  kendalls_w  significant
+  val f1_image_iou50_conf25       488       3            10.173333 0.006179    0.010423         True
+ test f1_image_iou50_conf25       483       3             2.325301 0.312656    0.002407        False
+
+WILCOXON-HOLM
+split model_a model_b   mean_a   mean_b  mean_difference_a_minus_b  wilcoxon_statistic    p_raw  rank_biserial_effect  nonzero_pairs   p_holm  significant_holm
+  val      E1      E2 0.923264 0.915660                   0.007604               311.5 0.262489              0.201282             39 0.262489             False
+  val      E1      E3 0.923264 0.935207                  -0.011943               118.0 0.049138             -0.418719             28 0.098277             False
+  val      E2      E3 0.915660 0.935207                  -0.019547               133.5 0.002336             -0.576190             35 0.007008              True
+ test      E1      E2 0.938267 0.945513                  -0.007246               222.5 0.276694             -0.206774             33 0.830082             False
+ test      E1      E3 0.938267 0.938054                   0.000212               422.0 0.909732             -0.019744             41 0.909732             False
+ test      E2      E3 0.945513 0.938054                   0.007459               301.5 0.301534              0.186235             38 0.830082             False
+
+BOOTSTRAP PAREADO-HOLM
+split model_a model_b  observed_difference_a_minus_b  bootstrap_mean_difference  ci95_lower  ci95_upper  p_bootstrap_raw  bootstrap_iterations resampling_unit  p_bootstrap_holm  significant_holm
+  val      E1      E2                       0.007604                   0.007658   -0.005393    0.020193         0.241879                  2000          imagen          0.241879             False
+  val      E1      E3                      -0.011943                  -0.011916   -0.023865   -0.000073         0.048976                  2000          imagen          0.097951             False
+  val      E2      E3                      -0.019547                  -0.019380   -0.032646   -0.006975         0.001000                  2000          imagen          0.002999              True
+ test      E1      E2                      -0.007246                  -0.007290   -0.019324    0.004141         0.224888                  2000          imagen          0.674663             False
+ test      E1      E3                       0.000212                   0.000265   -0.013754    0.014411         0.962519                  2000          imagen          0.962519             False
+ test      E2      E3                       0.007459                   0.007456   -0.005442    0.021480         0.249875                  2000          imagen          0.674663             False
+
+CONCLUSIÓN METODOLÓGICA
+El ganador oficial continúa siendo E3-YOLOv8m, seleccionado antes de abrir test. El orden observado en test se reporta únicamente con finalidad descriptiva y de generalización.

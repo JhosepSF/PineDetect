@@ -1,0 +1,320 @@
+/* ==========================================================================
+   PineDetect - Hoja de Estilos Personalizada (CSS)
+   Diseño profesional, moderno, limpio y responsive con paleta institucional
+   ========================================================================== */
+
+:root {
+  --primary-dark-green: #1B4332;
+  --primary-medium-green: #2D6A4F;
+  --primary-light-green: #40916C;
+  --accent-pineapple-gold: #F2B134;
+  --accent-pineapple-light: #FEF6E4;
+  --class-inmadura-green: #2CA02C;
+  --class-madura-yellow: #F2B134;
+  --class-sobremadura-red: #D62728;
+  --bg-light: #F8FAF9;
+  --bg-card: #FFFFFF;
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --border-light: #E2E8F0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(27, 67, 50, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+/* Tipografía general */
+html, body, [class*="css"] {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-primary);
+}
+
+/* Ocultar barra superior decorativa de Streamlit para un look nativo limpio */
+header[data-testid="stHeader"] {
+  background: transparent !important;
+}
+
+/* Banner superior principal */
+.pine-hero-container {
+  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 65%, #1E4E3A 100%);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem 2.5rem;
+  color: #FFFFFF;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pine-hero-container::after {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(242, 177, 52, 0.25) 0%, rgba(242, 177, 52, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pine-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(242, 177, 52, 0.2);
+  color: #F8D376;
+  border: 1px solid rgba(242, 177, 52, 0.4);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.9rem;
+  text-transform: uppercase;
+}
+
+.pine-hero-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0 0 0.5rem 0;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pine-hero-subtitle {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #E2E8F0;
+  margin: 0 0 0.75rem 0;
+}
+
+.pine-hero-desc {
+  font-size: 0.98rem;
+  color: #CBD5E1;
+  margin: 0;
+  max-width: 780px;
+  line-height: 1.5;
+}
+
+/* Tarjetas de Guía e Instrucciones */
+.pine-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+
+.pine-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.pine-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary-dark-green);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Tarjetas de Métricas de Resumen */
+.pine-metric-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.1rem;
+  border: 1px solid #E2E8F0;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 110px;
+  border-top: 4px solid var(--primary-medium-green);
+}
+
+.pine-metric-card.accent {
+  border-top: 4px solid var(--accent-pineapple-gold);
+}
+
+.pine-metric-value {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--primary-dark-green);
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.pine-metric-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Tarjetas de Conteo por Clase */
+.pine-class-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.pine-class-pill.inmadura {
+  background: rgba(44, 160, 44, 0.09);
+  border: 1px solid rgba(44, 160, 44, 0.35);
+  color: #1E6B1E;
+}
+
+.pine-class-pill.madura {
+  background: rgba(242, 177, 52, 0.12);
+  border: 1px solid rgba(242, 177, 52, 0.45);
+  color: #995D00;
+}
+
+.pine-class-pill.sobremadura {
+  background: rgba(214, 39, 40, 0.09);
+  border: 1px solid rgba(214, 39, 40, 0.35);
+  color: #9C1819;
+}
+
+.pine-pill-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.pine-pill-indicator.inmadura { background-color: var(--class-inmadura-green); }
+.pine-pill-indicator.madura { background-color: var(--class-madura-yellow); }
+.pine-pill-indicator.sobremadura { background-color: var(--class-sobremadura-red); }
+
+/* Barra Lateral (Sidebar) */
+section[data-testid="stSidebar"] {
+  background-color: #F8FAF9 !important;
+  border-right: 1px solid #E2E8F0;
+}
+
+.sidebar-header-box {
+  padding: 1.1rem 0 0.5rem 0;
+  border-bottom: 1px solid #E2E8F0;
+  margin-bottom: 1.2rem;
+}
+
+.sidebar-brand-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary-dark-green);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.sidebar-brand-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+/* Estado del modelo */
+.model-status-badge {
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.model-status-badge.ok {
+  background: #E8F5E9;
+  color: #1B5E20;
+  border: 1px solid #A5D6A7;
+}
+
+.model-status-badge.missing {
+  background: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FFCC80;
+}
+
+/* Cajas de Información y Disclaimer en Sidebar */
+.sidebar-info-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 0.95rem;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.sidebar-info-card strong {
+  color: var(--primary-dark-green);
+}
+
+.sidebar-disclaimer-box {
+  background: #F1F5F9;
+  border-left: 3px solid #64748B;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 0.75rem;
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.4;
+  margin-top: 1.2rem;
+}
+
+/* Pie de página y Privacidad */
+.pine-footer {
+  margin-top: 3rem;
+  padding: 1.4rem 1rem;
+  border-top: 1px solid var(--border-light);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.pine-privacy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #F1F5F9;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  color: #334155;
+  margin-bottom: 0.4rem;
+}
+
+/* Contenedores de imágenes */
+.image-box-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-dark-green);
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}

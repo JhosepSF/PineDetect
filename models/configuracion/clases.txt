@@ -1,0 +1,3 @@
+0: inmadura
+1: madura
+2: sobremadura

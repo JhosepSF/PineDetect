@@ -1,0 +1,14 @@
+{
+    "analysis": "Comparación E1-E3 exclusivamente en validación",
+    "primary_metric": "mAP@0.50:0.95",
+    "selected_experiment": "E3",
+    "selected_model": "YOLOv8m",
+    "map50_95_validation": 0.8113044905655674,
+    "map50_validation": 0.9497844780980561,
+    "precision_validation": 0.9305283415466697,
+    "recall_validation": 0.92835913051736,
+    "friedman_p_value": 0.0061785808693727235,
+    "kendalls_w": 0.010423497267765919,
+    "test_evaluated": false,
+    "instruction": "Congelar el ganador antes de ejecutar la evaluación final en test."
+}

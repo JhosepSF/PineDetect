@@ -1,0 +1,23 @@
+# Entornos virtuales Python
+venv/
+.venv/
+env/
+ENV/
+
+# Bytecode y cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Pesos y modelos grandes (opcional para git)
+# models/*.pt
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

@@ -1,0 +1,12 @@
+django>=5.0.0
+ultralytics==8.4.143
+torch>=2.0.0
+torchvision>=0.15.0
+opencv-python-headless>=4.8.0
+pillow>=10.0.0
+pandas>=2.0.0
+numpy>=1.24.0
+plotly>=5.18.0
+pyyaml>=6.0
+pytest>=8.0.0
+pytest-django>=4.8.0

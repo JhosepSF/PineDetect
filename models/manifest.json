@@ -1,0 +1,29 @@
+{
+    "package": "detector_madurez_pina_yolov8m_v1",
+    "created_utc": "2026-09-08T22:43:37.603759+00:00",
+    "winner": "E3",
+    "model": "YOLOv8m",
+    "task": "object_detection_and_ripeness_classification",
+    "classes": [
+        "inmadura",
+        "madura",
+        "sobremadura"
+    ],
+    "parameters": 25858057,
+    "model_size_mb": 49.635515213012695,
+    "model_sha256": "69b9147eeeffb9cbc7e89f8202bb68b134e3932b796e0db39c18460c2e44df2b",
+    "python_version": "3.13.15",
+    "pytorch_version": "2.11.0+cu128",
+    "ultralytics_version": "8.4.143",
+    "selection_summary_source": "/content/drive/MyDrive/Tesis_Pina/07_evaluacion_final_estricta_v1/reportes/resumen_evaluacion_final.json",
+    "metrics_included": [
+        "metricas_globales_val_test.csv",
+        "metricas_por_clase_val_test.csv",
+        "comparacion_validacion_test.csv",
+        "ranking_oficial_por_validacion.csv",
+        "orden_descriptivo_test_no_seleccion.csv",
+        "resumen_evaluacion_final.json",
+        "informe_evaluacion_final_estricta.txt",
+        "resumen_seleccion_validacion.json"
+    ]
+}

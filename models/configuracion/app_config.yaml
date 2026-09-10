@@ -1,0 +1,21 @@
+package_name: detector_madurez_pina_yolov8m_v1
+model_file: modelo/detector_madurez_pina_yolov8m_v1.pt
+task: object_detection
+architecture: YOLOv8m
+experiment: E3
+classes:
+  0: inmadura
+  1: madura
+  2: sobremadura
+default_inference:
+  confidence: 0.25
+  iou: 0.7
+  image_size: 640
+input:
+- jpg
+- jpeg
+- png
+- bmp
+- webp
+output: bounding_boxes_class_confidence
+note: El modelo detecta piñas y clasifica su madurez; no produce máscaras.

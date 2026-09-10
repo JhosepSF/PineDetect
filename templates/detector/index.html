@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="app-layout">
+    <!-- ====================================================================
+         Barra Lateral (Sidebar)
+         ==================================================================== -->
+    <aside class="sidebar">
+        <!-- Marca y Logotipo -->
+        <div class="sidebar-brand">
+            <img src="{% static 'images/logo.png' %}" alt="PineDetect Logo" class="sidebar-logo">
+            <div>
+                <div class="brand-title">🍍 {{ app_name }}</div>
+                <div class="brand-subtitle">Clasificación Agrícola</div>
+            </div>
+        </div>
+
+        <!-- Estado del Modelo -->
+        <div class="sidebar-section">
+            <div class="section-title">Estado del Sistema</div>
+            {% if model_available %}
+                <div class="model-status-box ok">
+                    <span class="status-dot ok"></span>
+                    <div>
+                        <span>Modelo activo y listo</span><br>
+                        <small style="font-weight: normal; opacity: 0.9;">{{ model_filename }} ({{ model_size_mb }} MB)</small>
+                    </div>
+                </div>
+            {% else %}
+                <div class="model-status-box missing">
+                    <span class="status-dot missing"></span>
+                    <div>
+                        <span>Modelo no disponible</span><br>
+                        <small style="font-weight: normal; opacity: 0.85;">Coloca '{{ model_filename }}' en la carpeta 'models/'.</small>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Parámetros de Detección -->
+        <div class="sidebar-section">
+            <div class="section-title">Parámetros de Detección</div>
+            
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <label for="confSlider">Confianza mínima</label>
+                    <span class="slider-value-badge" id="confValue">0.25</span>
+                </div>
+                <input type="range" id="confSlider" min="0.05" max="0.90" step="0.05" value="0.25">
+                <small style="color: var(--text-muted); font-size: 0.75rem;">Certeza mínima para aceptar detecciones (reducir si no detecta).</small>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <label for="iouSlider">Umbral IoU (NMS)</label>
+                    <span class="slider-value-badge" id="iouValue">0.70</span>
+                </div>
+                <input type="range" id="iouSlider" min="0.30" max="0.90" step="0.05" value="0.70">
+                <small style="color: var(--text-muted); font-size: 0.75rem;">Superposición máxima entre cajas.</small>
+            </div>
+        </div>
+
+        <!-- Leyenda de Madurez -->
+        <div class="sidebar-section">
+            <div class="section-title">Leyenda de Madurez</div>
+            <div class="legend-pill inmadura">
+                <span><span class="legend-indicator inmadura"></span> Inmadura</span>
+                <small>Verde</small>
+            </div>
+            <div class="legend-pill madura">
+                <span><span class="legend-indicator madura"></span> Madura</span>
+                <small>Amarillo / Naranja</small>
+            </div>
+            <div class="legend-pill sobremadura">
+                <span><span class="legend-indicator sobremadura"></span> Sobremadura</span>
+                <small>Rojo</small>
+            </div>
+        </div>
+
+        <!-- Especificaciones Técnicas -->
+        <div class="tech-spec-card">
+            <strong>Especificaciones del Modelo</strong><br>
+            • <strong>Arquitectura:</strong> YOLOv8m<br>
+            • <strong>Tamaño de entrada:</strong> {{ default_imgsz }} px<br>
+            • <strong>Salida:</strong> Cajas y clasificación<br>
+            • <strong>Dispositivo:</strong> {{ device_info }}
+        </div>
+
+        <!-- Aviso / Disclaimer -->
+        <div class="sidebar-disclaimer">
+            ℹ️ <strong>Aviso:</strong> {{ disclaimer_text }}
+        </div>
+    </aside>
+
+    <!-- ====================================================================
+         Contenido Principal
+         ==================================================================== -->
+    <main class="main-content">
+        <!-- Banner Superior Hero -->
+        <header class="hero-banner">
+            <div class="hero-badge">🍍 Visión por Computador con YOLOv8</div>
+            <h1 class="hero-title">{{ app_name }}</h1>
+            <div class="hero-subtitle">{{ app_subtitle }}</div>
+            <p class="hero-desc">{{ app_description }}</p>
+        </header>
+
+        <!-- Alerta de Error Dinámica -->
+        <div id="errorAlert" class="alert alert-error" style="display: none;">
+            <span>❌</span>
+            <div id="errorMessage"></div>
+        </div>
+
+        <!-- Tarjeta de Carga de Imagen -->
+        <section class="upload-card">
+            <h2 style="font-size: 1.2rem; font-weight: 700; color: var(--primary-dark);">
+                📤 Cargar Imagen para Detección
+            </h2>
+
+            <!-- Input invisible -->
+            <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp" style="display: none;">
+
+            <!-- Zona de Arrastrar y Soltar -->
+            <div id="dropzone" class="dropzone">
+                <div class="dropzone-icon">📷</div>
+                <div class="dropzone-text">Arrastra y suelta tu imagen aquí o haz clic para explorar</div>
+                <div class="dropzone-subtext">Formatos admitidos: JPG, JPEG, PNG, WEBP (Máximo {{ max_file_size_mb }} MB)</div>
+            </div>
+
+            <!-- Vista Previa de Imagen Cargada -->
+            <div id="previewContainer" class="preview-container">
+                <div class="preview-header">
+                    <div class="preview-info">
+                        Archivo: <strong id="previewFilename">pina.jpg</strong> | 
+                        Resolución: <strong id="previewDimensions">1920x1080 px</strong> | 
+                        Tamaño: <strong id="previewSize">2.4 MB</strong>
+                    </div>
+                    <button type="button" id="resetFileBtn" class="btn-secondary">🔄 Cambiar imagen</button>
+                </div>
+
+                <div class="preview-image-wrapper">
+                    <img id="previewImg" class="preview-img" alt="Vista previa de piña">
+                </div>
+
+                <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem;">
+                    <button type="button" id="analyzeBtn" class="btn-primary" {% if not model_available %}disabled title="El modelo no está cargado"{% endif %}>
+                        <span>🍍</span> Analizar imagen
+                    </button>
+                    {% if not model_available %}
+                        <small style="color: #E65100; font-weight: 600;">⚠️ Coloca el archivo '{{ model_filename }}' en la carpeta 'models/' para habilitar el análisis.</small>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Spinner de Carga durante Inferencia -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="spinner"></div>
+            <h3 style="color: var(--primary-dark); font-weight: 700; margin-bottom: 0.35rem;">
+                Analizando la imagen con PineDetect...
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                Ejecutando modelo YOLOv8m para localizar piñas y clasificar su madurez.
+            </p>
+        </div>
+
+        <!-- Guía Inicial (visible cuando no hay imagen cargada) -->
+        <section id="guideSection" class="guide-grid">
+            <div class="guide-card">
+                <div class="guide-card-title">💡 1. Buena Iluminación</div>
+                <div class="guide-card-desc">
+                    Utiliza fotografías con iluminación natural o uniforme para resaltar los tonos verde, amarillo y rojizo de la cáscara.
+                </div>
+            </div>
+            <div class="guide-card">
+                <div class="guide-card-title">📸 2. Visibilidad y Enfoque</div>
+                <div class="guide-card-desc">
+                    Procura que la piña sea claramente visible y evita desenfoques o movimientos bruscos para una delimitación precisa.
+                </div>
+            </div>
+            <div class="guide-card">
+                <div class="guide-card-title">🍍 3. Múltiples Frutos</div>
+                <div class="guide-card-desc">
+                    El modelo puede identificar y clasificar simultáneamente múltiples piñas dentro de la misma fotografía.
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Resultados (visible tras el análisis) -->
+        <section id="resultsSection" class="results-section">
+            <h2 class="section-heading">📊 Resultados del Análisis</h2>
+
+            <!-- Comparativa Visual en 2 Columnas -->
+            <div class="comparison-grid">
+                <div class="image-card">
+                    <div class="image-card-title">📷 Imagen Original</div>
+                    <div class="image-frame">
+                        <img id="originalResultImg" alt="Imagen Original">
+                    </div>
+                </div>
+                <div class="image-card">
+                    <div class="image-card-title">🎯 Imagen Analizada (Detección y Madurez)</div>
+                    <div class="image-frame">
+                        <img id="annotatedResultImg" alt="Imagen Analizada">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caso Sin Detecciones -->
+            <div id="noDetectionsAlert" class="alert alert-warning" style="display: none;">
+                <span>⚠️</span>
+                <div>
+                    <strong>No se detectaron piñas con el nivel de confianza seleccionado.</strong><br>
+                    <span>Prueba con una imagen más clara o reduce ligeramente el umbral de confianza en la barra lateral para volver a analizar.</span>
+                </div>
+            </div>
+
+            <!-- Métricas Generales -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" id="metricTotal">0</div>
+                    <div class="metric-label">Piñas Detectadas</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="metricAvgConf">0.0 %</div>
+                    <div class="metric-label">Confianza Promedio</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="metricTime">0 <small style="font-size: 1rem;">ms</small></div>
+                    <div class="metric-label">Tiempo de Inferencia</div>
+                </div>
+                <div class="metric-card accent">
+                    <div class="metric-value" id="metricPredominant" style="font-size: 1.5rem;">—</div>
+                    <div class="metric-label">Clase Predominante</div>
+                </div>
+            </div>
+
+            <!-- Desglose por Clase y Gráfico -->
+            <div id="analyticsSection" class="analytics-grid">
+                <div class="chart-card">
+                    <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary-dark);">
+                        🍍 Conteo por Madurez
+                    </h3>
+                    <div class="legend-pill inmadura">
+                        <span><span class="legend-indicator inmadura"></span> <b>Inmadura</b></span>
+                        <span id="countInmadura">0 (0.0%)</span>
+                    </div>
+                    <div class="legend-pill madura">
+                        <span><span class="legend-indicator madura"></span> <b>Madura</b></span>
+                        <span id="countMadura">0 (0.0%)</span>
+                    </div>
+                    <div class="legend-pill sobremadura">
+                        <span><span class="legend-indicator sobremadura"></span> <b>Sobremadura</b></span>
+                        <span id="countSobremadura">0 (0.0%)</span>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary-dark);">
+                        📈 Distribución de Piñas por Estado de Madurez
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="maturityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla Detallada de Detecciones -->
+            <div class="table-card">
+                <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.9rem;">
+                    📋 Tabla de Detecciones
+                </h3>
+                <table class="detections-table">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Estado de Madurez</th>
+                            <th>Confianza</th>
+                            <th>X Mín</th>
+                            <th>Y Mín</th>
+                            <th>X Máx</th>
+                            <th>Y Máx</th>
+                            <th>Ancho</th>
+                            <th>Alto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detectionsTableBody">
+                        <!-- Filas insertadas dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botones de Exportación / Descarga -->
+            <div>
+                <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.75rem;">
+                    💾 Exportar y Descargar Resultados
+                </h3>
+                <div class="downloads-grid">
+                    <button type="button" id="downloadPngBtn" class="btn-download">
+                        <span>🖼️</span> Descargar imagen analizada (PNG)
+                    </button>
+                    <button type="button" id="downloadCsvBtn" class="btn-download">
+                        <span>📊</span> Descargar resultados CSV (Excel)
+                    </button>
+                    <button type="button" id="downloadJsonBtn" class="btn-download">
+                        <span>📋</span> Descargar resumen JSON
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pie de página y Privacidad -->
+        <footer class="footer">
+            <div class="privacy-tag">🔒 Aviso de Privacidad</div><br>
+            {{ privacy_notice_text }}<br>
+            <small>© {{ app_name }} — Detección y Clasificación Inteligente del Estado de Madurez de Piñas</small>
+        </footer>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+ultralytics==8.4.143
+torch
+torchvision
+opencv-python-headless
+pillow
+numpy
+pyyaml

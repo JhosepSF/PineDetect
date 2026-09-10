@@ -1,0 +1,21 @@
+{
+    "analysis": "Evaluación final estricta E1-E3",
+    "frozen_winner_before_test": "E3",
+    "frozen_winner_label": "YOLOv8m",
+    "selection_basis": "mAP@0.50:0.95 de validación",
+    "winner_changed_after_test": false,
+    "test_used_for_model_adjustment": false,
+    "frozen_winner_results": {
+        "map50_95_val": 0.8113044905655674,
+        "map50_95_test": 0.7988699289027832,
+        "gap_test_minus_val": -0.012434561662784227,
+        "map50_test": 0.9585770412527476,
+        "precision_test": 0.9398318929000588,
+        "recall_test": 0.9333305817540133
+    },
+    "best_test_model_descriptive_only": "E1",
+    "best_test_model_label": "YOLOv8n",
+    "best_test_map50_95": 0.8223470840424018,
+    "statistical_note": "Las pruebas pareadas de test son complementarias. La selección oficial se realizó previamente y exclusivamente mediante validación.",
+    "final_instruction": "No reajustar modelos ni hiperparámetros usando los resultados de test."
+}
